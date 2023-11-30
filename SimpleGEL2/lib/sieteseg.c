@@ -40,7 +40,7 @@ void sieteSeg_valor(uint16_t val) {
     val = val / 10;
   }
   
-  for (uint8_t i = 0; i < 4; i++) {
+  for (uint8_t i = 0; i < 3; i++) {
     if (nums[3-i] == 0) {
 		nums[3-i] = 0xF;
 	} else {
