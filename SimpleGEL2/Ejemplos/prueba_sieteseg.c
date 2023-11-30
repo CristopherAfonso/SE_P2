@@ -3,19 +3,20 @@
 #include <sys/interrupts.h>
 #include <sys/locks.h>
 #include <sys/sio.h>
+#include <timer.h>
 #include <types.h>
 
 int main() {
   /// Deshabilitamos interrupciones
-  lock();
-
+  lock(); 
+ 
   serial_init();
   sieteSeg_init();
   timer_init(3);  ///< factor escalado a 3 = un milisegundo
   serial_print("\r\n" __FILE__ " ==========\r\n");
 
-  sieiteSeg_valor(1234);
-
+  sieteSeg_valor(1234);
+ 
   unlock();  ///< Habilitamos interrupciones
 
   serial_print("\r\nTerminada inicialización");

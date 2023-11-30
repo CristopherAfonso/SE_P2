@@ -13,15 +13,18 @@ void task_segs(void* params) {
   uint8_t final = 1 << (4 + currentDisp);
   final += nums[currentDisp] & 0xF;
 
+  if (nums[currentDisp] < 10) {
+	gpio_writeport(PUERTO7, final);
+  }
+  
   currentDisp = (currentDisp + 1) % 4;
-  gpio_writeport(PUERTO7, final);
 }
 
 void sieteSeg_init() {
   gpio_setportasinout(PUERTO7, 0xff);
 
   uint8_t param = 0;
-  uint8_t id = timer_add_periodic_task(task_segs, &param, 1000);
+  timer_add_periodic_task(task_segs, &param, 1000);
 }
 
 void sieteSeg_digitos(uint8_t* val) {
@@ -32,9 +35,16 @@ void sieteSeg_digitos(uint8_t* val) {
 }
 
 void sieteSeg_valor(uint16_t val) {
-  uint8_t val = val;
   for (uint8_t i = 0; i < 4; i++) {
     nums[i] = val % 10;
     val = val / 10;
+  }
+  
+  for (uint8_t i = 0; i < 4; i++) {
+    if (nums[3-i] == 0) {
+		nums[3-i] = 0xF;
+	} else {
+		break;
+	}
   }
 }
