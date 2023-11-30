@@ -53,7 +53,7 @@ int main () {
 
     /* Elección del pin dentro del puerto */
     serial_print("\r\nPin del puerto a utilizar (0 - 7)?:");
-    while((c = serial_recv()) < '0' && c > '7');
+    while((c = serial_recv()) < '0' || c > '7');
     serial_send(c); /* a modo de confirmación*/
     Pin = c - '0';
 
@@ -105,7 +105,7 @@ int main () {
       /* Los 8 resultados son iguales y distintos a lo que teníamos antes*/
       serial_print("  Nuevo valor = ");
       serial_printdecword(resultado);
-      serial_send('\r');
+      serial_print("    \r");
       resultadoAnterior = resultado;
     }
   }

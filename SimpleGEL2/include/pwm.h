@@ -55,8 +55,7 @@ void pwm_set_polarity(int8_t port, bool up);
  * Este método permite estableces el tipo de alineamiento para poder modificar
  * los pulsos de reloj
  *
- * @param align Define el alineamiento de la señal de salida
- * @param select_channel Define el canal a configurar
+ * @param align Define el alineamiento de la señal de salida 1=izquierdo 0=centrado
  */
 void pwm_set_alignment(bool left_align);
 

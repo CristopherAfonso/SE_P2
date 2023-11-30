@@ -55,7 +55,7 @@ void ad_set_conversion_size_10(uint8_t increase);
 /**
  * @brief      Sets the sampling time.
  *
- * @param[in]  size  Specify the sampling time. (1, 2, 4, 16)
+ * @param[in]  size  Specify the sampling time. (2, 4, 8, 16)
  */
 void ad_set_sampling_time(uint8_t size);
 

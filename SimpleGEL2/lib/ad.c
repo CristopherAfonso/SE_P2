@@ -1,6 +1,6 @@
 #include <ad.h>
 
-uint8_t dir_ad_ = 0;
+uint16_t dir_ad_ = 0;
 
 uint8_t ATD0CTL4 = 0;
 uint8_t ATD0CTL5 = 0;
@@ -8,7 +8,9 @@ uint8_t ATD0CTL5 = 0;
 void (*callback_ad_)() = 0;
 
 void ad_print_status() {
-  serial_print("ATD0CTL2: ");
+  serial_print("\r\ndir_ad_: ");
+  serial_printdecword(dir_ad_);
+  serial_print("\n\rATD0CTL2: ");
   serial_printbinbyte(_io_ports[M6812_ATD0CTL2 + dir_ad_]);
   serial_print("\n\rATD0CTL3: ");
   serial_printbinbyte(_io_ports[M6812_ATD0CTL3 + dir_ad_]);
@@ -16,7 +18,6 @@ void ad_print_status() {
   serial_printbinbyte(_io_ports[M6812_ATD0CTL4 + dir_ad_]);
   serial_print("\n\rATD0CTL5: ");
   serial_printbinbyte(_io_ports[M6812_ATD0CTL5 + dir_ad_]);
-  serial_print("\n\r");
 }
 
 void ad_init() {
@@ -47,7 +48,10 @@ void ad_set_conversion_size_10(uint8_t increase) {
 
 void ad_set_sampling_time(uint8_t size) {
   ATD0CTL4 &= ~(M6812B_SMP0 | M6812B_SMP1);
-  ATD0CTL4 |= (M6812B_SMP0 * !(size & 0x07)) | (M6812B_SMP1 * !(size & 0x0F));
+  // ATD0CTL4 |= (M6812B_SMP0 * !(size & 0x07)) | (M6812B_SMP1 * !(size & 0x0F));
+  uint8_t smp = size >> 2;
+  smp = smp < 3 ? smp : 3; // 16 se codifica 3
+  ATD0CTL4 |= (smp << 5);
 }
 
 void ad_set_sucesive_conversions(uint8_t amount) {
@@ -87,14 +91,14 @@ void ad_retrieve_all(uint16_t *values, uint8_t amount) {
 }
 
 void ad_install_callback(void (*callback)()) {
-  unlock();
+//  unlock();
   _io_ports[M6812_ATD0CTL2 + dir_ad_] |= M6812B_ASCIE;
   callback_ad_ = callback;
 }
 
 void __attribute__((interrupt)) vi_atd(void) {
-  serial_print("\r\n");
-  serial_printbinbyte(_io_ports[M6812_ATD0CTL2 + dir_ad_]);
+//  serial_print("\r\n");
+//  serial_printbinbyte(_io_ports[M6812_ATD0CTL2 + dir_ad_]);
   ad_retrieve(0);
   if (callback_ad_) callback_ad_();
 }

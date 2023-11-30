@@ -24,13 +24,13 @@
 
 void pwm_set_clock(bool clock_A, int8_t factor_N) {
   if (clock_A == true) {  // reloj A -> canal 0 y 1
-    serial_print("Reloj A");
+    // serial_print("Reloj A");
     _io_ports[M6812_PWCLK] &= M6812_DESPL7_3;
     _io_ports[M6812_PWCLK] |= (factor_N << 3);
     _io_ports[M6812_PWPOL] &= ~M6812B_PCLK0;
     _io_ports[M6812_PWPOL] &= ~M6812B_PCLK1;
   } else {  // reloj B -> canales 2 y 3
-    serial_print("Reloj B");
+    // serial_print("Reloj B");
     _io_ports[M6812_PWCLK] &= M6812_DESPL7_0;
     _io_ports[M6812_PWCLK] |= (factor_N << 0);
     _io_ports[M6812_PWPOL] &= ~M6812B_PCLK2;
@@ -103,16 +103,16 @@ uint8_t pwm_get_channel_period(int8_t channel) {
 void pwm_channel_enable(int8_t channel) {
   switch (channel) {
     case 0:
-      _io_ports[M6812_PWPER0] |= M6812B_PWEN0;
+      _io_ports[M6812_PWEN] |= M6812B_PWEN0;
       break;
     case 1:
-      _io_ports[M6812_PWPER1] |= M6812B_PWEN1;
+      _io_ports[M6812_PWEN] |= M6812B_PWEN1;
       break;
     case 2:
-      _io_ports[M6812_PWPER2] |= M6812B_PWEN2;
+      _io_ports[M6812_PWEN] |= M6812B_PWEN2;
       break;
     case 3:
-      _io_ports[M6812_PWPER3] |= M6812B_PWEN3;
+      _io_ports[M6812_PWEN] |= M6812B_PWEN3;
       break;
   }
 }
@@ -150,6 +150,10 @@ void pwm_print_status() {
 
   serial_print("PWPOL: ");
   serial_printbinbyte(_io_ports[M6812_PWPOL]);
+  serial_print("\r\n");
+
+  serial_print("PWEN: ");
+  serial_printbinbyte(_io_ports[M6812_PWEN]);
   serial_print("\r\n");
 
   serial_print("PWPER0: ");

@@ -66,7 +66,7 @@ int main() {
       _io_ports[M6812_SP0CR1] |= M6812B_MSTR;
 
       serial_print("\r\nVelocidad (0 maxima a 7 minima)");
-      while( (c = serial_recv())> '7' && c < '0');
+      while( (c = serial_recv())> '7' || c < '0');
       serial_send(c);  // devolvemos el aceptado
 
       // Fijamos la velocidad

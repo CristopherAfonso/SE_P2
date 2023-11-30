@@ -45,11 +45,11 @@ int main () {
     serial_print("\r\nPuerto conversor a utilizar (0 - 1)?:");
     while((c = serial_recv()) != '0' && c != '1');
     serial_send(c); /* a modo de confirmación*/
-    ad_set_conversor(0);
+    ad_set_conversor(c - '0');
 
     /* Elección del pin dentro del puerto */
     serial_print("\r\nPin del puerto a utilizar (0 - 7)?:");
-    while((c = serial_recv()) < '0' && c > '7');
+    while((c = serial_recv()) < '0' || c > '7');
     serial_send(c); /* a modo de confirmación*/
     ad_init();
     /*Pasamos a configurar AD correspondiente*/
@@ -71,8 +71,8 @@ int main () {
     ad_set_init_pin(c - '0');
     ad_set_continuous_conversions(1);
     ad_set_sucesive_conversions(1);
-    ad_print_status();
     ad_start();
+    ad_print_status();
 
     serial_print("\r\nConvirtiendo (pulsa para salir)\r\n");
 
