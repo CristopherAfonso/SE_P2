@@ -1,8 +1,6 @@
 #include <gpio.h>
 #include <sys/interrupts.h>
-#include <sys/locks.h>
 #include <sys/param.h>
-#include <sys/sio.h>
 #include <timer.h>
 #include <types.h>
 
@@ -39,28 +37,4 @@ void sieteSeg_valor(uint16_t val) {
     nums[i] = val % 10;
     val = val / 10;
   }
-}
-
-int main() {
-  /// Deshabilitamos interrupciones
-  lock();
-
-  serial_init();
-  sieteSeg_init();
-  timer_init(3);  ///< factor escalado a 3 = un milisegundo
-  serial_print("\r\n" __FILE__ " ==========\r\n");
-
-  // gpio_writeport(PUERTO7, gpio_strtobin("1000 0101"));
-
-  uint8_t valores[] = {1, 2, 3, 4};
-  sieteSeg_digitos(valores);
-
-  unlock();  ///< Habilitamos interrupciones
-
-  serial_print("\r\nTerminada inicialización");
-
-  while (1) {
-  }
-
-  return 0;
 }
