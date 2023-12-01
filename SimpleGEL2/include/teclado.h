@@ -1,3 +1,4 @@
+#include <types.h>
 
 void teclado_init();
 char teclado_getch();
