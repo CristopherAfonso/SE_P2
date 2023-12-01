@@ -71,6 +71,7 @@ void pwm_set_polarity(int8_t port, bool up) {
   }
 }
 
+
 void pwm_set_alignment(bool left_align) {
   if (left_align == true) {  // Alineamiento a la izquierda
     _io_ports[M6812_PWCTL] &= ~M6812B_CENTR;
