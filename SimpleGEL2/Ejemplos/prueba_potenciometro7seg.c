@@ -1,18 +1,30 @@
-
-/* ****************************************
- * Lee una entrada analógica y muestra valor por
- * la serial.
- * Al inicio permite elegir en tiempo de ejecución el puerto
- * y el pin dentro del puerto a utilizar
- * No utiliza interrupciones sino polling
-
-  Copyright (C) Alberto F. Hamilton Castro
-  Dpto. de Ingeniería Informática de Sistemas
-  Universidad de La Laguna
-
-  Licencia: GPLv3
-
-  *************************************** */
+/**
+ * Universidad de La Laguna (ULL)
+ * Escuela Superior de Ingenierıa y Tecnologıa (ESIT)
+ * Grado en Ingenierıa Informatica
+ * Asignatura: Sistemas Empotrados
+ * Curso: 4º
+ * Itinerario 2: Ingenierıa de Computadores
+ * Practica 2: Funciones y Programas para el manejo de la tarjeta DISEN-EXP
+ * @author Cristopher Manuel Afonso Mora (alu0101402031@ull.edu.es)
+ * @author Francesco La Spina (alu0101435022@ull.edu.es)
+ * @date 30/11/2023
+ *
+ * @file prueba_potenciometro7seg.c
+ * @brief Archivo que lee el valor de uno de los potenciómetros y
+ * represente en los 7-segmentos el valor de la conversión con una
+ * resolución de 10 bits.
+ *
+ * @bug No hay bugs conocidos
+ *
+ * @version 0.1
+ * @copyright Copyright (c) 2023
+ * @brief Historial de Revisiones
+ * 01/12/23 - Creacion del archivo:
+ *            Se han creado el programa y se ha verificado que funciona
+ *            correctamente
+ * 03/12/23 - Se ha documentado este archivo y se ha terminado
+ */
 
 #include <sys/interrupts.h>
 #include <sys/locks.h>
@@ -32,9 +44,8 @@ int main () {
   /* Deshabilitamos interrupciones */
   lock ();
 
-
   serial_init();
-  sieteSeg_init();
+  sieteSeg_init(); ///< Inicializamos el 7 segmentos
   timer_init(3);  ///< factor escalado a 3 = un milisegundo
   serial_print("\r\n" __FILE__ " ==========\r\n");
   
@@ -111,7 +122,7 @@ int main () {
       /* Los 8 resultados son iguales y distintos a lo que teníamos antes*/
       serial_print("  Nuevo valor = ");
       serial_printdecword(resultado);
-      sieteSeg_valor(resultado);
+      sieteSeg_valor(resultado); ///< Mostramos el valor en el 7 segmentos
       serial_print("   \r");
       resultadoAnterior = resultado;
     }
