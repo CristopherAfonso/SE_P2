@@ -50,6 +50,8 @@ void task_segs(void* params) {
 
   if (nums[currentDisp] < 10) {
     gpio_writeport(PUERTO7, final);
+  } else { /// Este else evita que el led en el 7seg se ilumine de más
+	gpio_writeport(PUERTO7, 0);
   }
   
   currentDisp = (currentDisp + 1) % 4;

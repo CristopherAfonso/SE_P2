@@ -82,6 +82,8 @@ int main() {
 		  valSeg /= 10;
 		  sieteSeg_valor(valSeg);
 	  } else if (val == '*') {
+		  /// la segunda vez que se pulsa el '*' se limpia el 7seg
+		  sieteSeg_valor(valSeg);
 		  valMot = valSeg;
 		  valSeg = 0;
 		  pwm_modify_duty_percentage(0, valMot);
